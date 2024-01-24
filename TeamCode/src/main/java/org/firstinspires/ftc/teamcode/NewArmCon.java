@@ -24,23 +24,29 @@ public class NewArmCon extends LinearOpMode {
 
         while ( opModeIsActive() ) {
 
-            //Down
-            if (gamepad1.right_trigger>0){
-                myRobot.setLeftDrivePower(gamepad1.right_trigger);
-                myRobot.setRightDrivePower(-gamepad1.right_trigger);
-                telemetry.addData("Status", "Going down...");
-                telemetry.update();
+            double maxSpeed = 0.5;
 
+            double curSpeed = gamepad1.right_stick_y/2;
+            if (curSpeed > maxSpeed){
+                curSpeed = maxSpeed;
             }
 
-            //Out
-            if (gamepad1.left_trigger>0) {
-                myRobot.setLeftDrivePower(-gamepad1.right_trigger);
-                myRobot.setRightDrivePower(gamepad1.right_trigger);
-                telemetry.addData("Status", "Going out...");
+            if (Math.abs(gamepad1.right_stick_y)>0.2){
+                myRobot.setLeftDrivePower(curSpeed);
+                myRobot.setRightDrivePower(curSpeed);
+                telemetry.addData("Status", "curSpeed: " + round2dec(curSpeed) + ", realY: " + round2dec(gamepad1.right_stick_y));
+                telemetry.update();
+            }
+            else{
+                myRobot.stopMotors();
+                telemetry.addData("Status", "curSpeed: " + round2dec(curSpeed) + ", realY: " + round2dec(gamepad1.right_stick_y));
                 telemetry.update();
             }
         }
+    }
+
+    public static double round2dec(double num){
+        return (int)(num*100)/100.0;
     }
 }
 

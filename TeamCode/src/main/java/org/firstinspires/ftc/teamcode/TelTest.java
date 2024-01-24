@@ -15,27 +15,32 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class TelTest extends LinearOpMode {
     @Override
     public void runOpMode() {
+        int count = 0;
         GeneralDrive myRobot = new GeneralDrive(hardwareMap);
         Telemetry telemetry;
         telemetry = this.telemetry;
 
         waitForStart();
 
-        while ( opModeIsActive() ) {
+        while (opModeIsActive()) {
 
-            //Down
-            if (gamepad1.right_trigger>0){
-                telemetry.addData("Status", "Going down...");
-                telemetry.update();
-
+            double maxSpeed = 0.5;
+            double curSpeed = gamepad1.right_stick_y / 2;
+            if (curSpeed > maxSpeed) {
+                curSpeed = maxSpeed;
             }
 
-            //Out
-            if (gamepad1.left_trigger>0) {
-                telemetry.addData("Status", "Going out...");
+            if (Math.abs(gamepad1.right_stick_y) > 0.2) {
+
+                telemetry.addData("Status", "curSpeed: " + round2dec(curSpeed) + ", realY: " + round2dec(gamepad1.right_stick_y));
+                telemetry.update();
+            } else {
+                telemetry.addData("Status", "curSpeed: " + round2dec(curSpeed) + ", realY: " + round2dec(gamepad1.right_stick_y));
                 telemetry.update();
             }
         }
     }
+    public static double round2dec(double num){
+        return (int)(num*100)/100.0;
+    }
 }
-
