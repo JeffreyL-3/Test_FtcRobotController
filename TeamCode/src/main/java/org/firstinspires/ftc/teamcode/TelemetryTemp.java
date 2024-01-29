@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-public class TempTelem {
+public class TelemetryTemp {
     public String caption;
     public String value;
 
-    public TempTelem(String myCaption, String myValue){
+    public TelemetryTemp(String myCaption, String myValue){
         caption=myCaption;
         value=myValue;
     }

@@ -1,21 +1,18 @@
 package org.firstinspires.ftc.teamcode;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
-public class TelemBuffer {
+public class TelemetryController {
 
     int maxSize;
-    ArrayList<TempTelem> bufferLog = new ArrayList<TempTelem>();
+    ArrayList<TelemetryTemp> bufferLog = new ArrayList<TelemetryTemp>();
 
-    public TelemBuffer(int myMaxSize){
+    public TelemetryController(int myMaxSize){
         maxSize = myMaxSize;
     }
 
-    public void addData(TempTelem newData){
+    public void addData(TelemetryTemp newData){
         bufferLog.add(newData);
         if(bufferLog.size()>maxSize){
             bufferLog.remove(0);

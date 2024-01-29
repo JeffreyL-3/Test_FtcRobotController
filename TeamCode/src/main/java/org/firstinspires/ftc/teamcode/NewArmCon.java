@@ -1,18 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 //Driver-Controlled Period
@@ -23,14 +17,14 @@ public class NewArmCon extends LinearOpMode {
 
     boolean updating = false;
 
-    TelemBuffer bufferLog = new TelemBuffer(10);
+    TelemetryController bufferLog = new TelemetryController(10);
     @Override
     public void runOpMode() {
         //Set delay between adding to telemetry data (in ms)
         //Min is 250ms, max is anything you want
         int delay = 250;
         telemetry.setMsTransmissionInterval(delay);
-        bufferLog.addData(new TempTelem("INIT CONFIG", delay + " Telem Refresh"));
+        bufferLog.addData(new TelemetryTemp("INIT CONFIG", delay + " Telem Refresh"));
 
         GeneralDrive myRobot = new GeneralDrive(hardwareMap);
         Telemetry telemetry;
@@ -64,7 +58,7 @@ public class NewArmCon extends LinearOpMode {
 
             double curTime = runtime.milliseconds();
             if (curTime >= lastTime + delay) {
-                bufferLog.addData(new TempTelem("Status " + count, "curSpeed: " + roundDec2(curSpeed) + ", realY: " + roundDec2(gamepad1.right_stick_y)));
+                bufferLog.addData(new TelemetryTemp("Status " + count, "curSpeed: " + roundDec2(curSpeed) + ", realY: " + roundDec2(gamepad1.right_stick_y)));
                 count ++;
                 updateTelem(bufferLog.getAll(), telemetry);
                 lastTime = curTime;
@@ -84,8 +78,8 @@ public class NewArmCon extends LinearOpMode {
     }
 
     //Updates telemetry with bufferlog every delayMs
-    public static void updateTelem(ArrayList<TempTelem> bufferLog, Telemetry telemetry){
-        for(TempTelem log:bufferLog){
+    public static void updateTelem(ArrayList<TelemetryTemp> bufferLog, Telemetry telemetry){
+        for(TelemetryTemp log:bufferLog){
             telemetry.addData(log.caption, log.value);
         }
 
