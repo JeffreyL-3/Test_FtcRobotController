@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.ArrayList;
 
 
@@ -19,7 +21,7 @@ public class TelemetryController {
         }
     }
 
-    public ArrayList getAll(){
+    public ArrayList<TelemetryTemp> getAll(){
         return bufferLog;
     }
 
@@ -27,5 +29,19 @@ public class TelemetryController {
         bufferLog.clear();
     }
 
+    //Updates telemetry with bufferlog
+    public static void updateTelemetry(ArrayList<TelemetryTemp> bufferLog, Telemetry telemetry){
+
+        if (bufferLog == null || telemetry == null) {
+            throw new IllegalArgumentException("bufferLog and telemetry must not be null");
+        }
+
+        for(TelemetryTemp log:bufferLog){
+            telemetry.addData(log.caption, log.value);
+        }
+
+        telemetry.update();
+
+    }
 
 }
