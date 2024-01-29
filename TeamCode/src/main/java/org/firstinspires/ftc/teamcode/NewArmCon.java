@@ -10,43 +10,88 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 //Driver-Controlled Period
 @TeleOp
 public class NewArmCon extends LinearOpMode {
+
+    int count = 0;
+
+    boolean updating = false;
+
+    TelemBuffer bufferLog = new TelemBuffer(10);
     @Override
     public void runOpMode() {
-        int count = 0;
+        //Set delay between adding to telemetry data (in ms)
+        //Min is 250ms, max is anything you want
+        int delay = 250;
+        telemetry.setMsTransmissionInterval(delay);
+        bufferLog.addData(new TempTelem("INIT CONFIG", delay + " Telem Refresh"));
+
         GeneralDrive myRobot = new GeneralDrive(hardwareMap);
         Telemetry telemetry;
         telemetry = this.telemetry;
 
         waitForStart();
+        ElapsedTime runtime = new ElapsedTime();
+        double lastTime = runtime.milliseconds();
+
 
         while ( opModeIsActive() ) {
 
-            double maxSpeed = 0.5;
+            //maxSpeed (0.0 - 1.0)
+            double maxSpeed = 1.0;
 
-            double curSpeed = gamepad1.right_stick_y/2;
+            //curSpeed is adjusted to max out at maxSpeed
+            //stick y: down is positive, up is negative
+            double curSpeed = gamepad1.right_stick_y * maxSpeed;
+
             if (curSpeed > maxSpeed){
                 curSpeed = maxSpeed;
             }
 
             if (Math.abs(gamepad1.right_stick_y)>0.2){
-                myRobot.setLeftDrivePower(curSpeed);
-                myRobot.setRightDrivePower(curSpeed);
-                telemetry.addData("Status", "curSpeed: " + round2dec(curSpeed) + ", realY: " + round2dec(gamepad1.right_stick_y));
-                telemetry.update();
+                //armMove(myRobot, curSpeed);
             }
+
             else{
                 myRobot.stopMotors();
-                telemetry.addData("Status", "curSpeed: " + round2dec(curSpeed) + ", realY: " + round2dec(gamepad1.right_stick_y));
-                telemetry.update();
             }
+
+            double curTime = runtime.milliseconds();
+            if (curTime >= lastTime + delay) {
+                bufferLog.addData(new TempTelem("Status " + count, "curSpeed: " + roundDec2(curSpeed) + ", realY: " + roundDec2(gamepad1.right_stick_y)));
+                count ++;
+                updateTelem(bufferLog.getAll(), telemetry);
+                lastTime = curTime;
+            }
+
+
         }
     }
 
-    public static double round2dec(double num){
+    public void armMove(GeneralDrive myRobot, double speed){
+        myRobot.setLeftDrivePower(speed);
+        myRobot.setRightDrivePower(speed);
+    }
+
+    public static double roundDec2(double num){
         return (int)(num*100)/100.0;
     }
+
+    //Updates telemetry with bufferlog every delayMs
+    public static void updateTelem(ArrayList<TempTelem> bufferLog, Telemetry telemetry){
+        for(TempTelem log:bufferLog){
+            telemetry.addData(log.caption, log.value);
+        }
+
+        telemetry.update();
+
+    }
+
 }
 
