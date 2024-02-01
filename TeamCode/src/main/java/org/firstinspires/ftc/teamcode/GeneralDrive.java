@@ -14,8 +14,10 @@ import com.qualcomm.robotcore.util.Range;
 
 //Example:
 public class GeneralDrive{
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+    private DcMotor motor0 = null;
+    private DcMotor motor1 = null;
+
+    private DcMotor motor2 = null;
     private HardwareMap hardwareMap;
 
     public GeneralDrive(HardwareMap hwMap) {
@@ -23,38 +25,48 @@ public class GeneralDrive{
         init();
     }
     private void init() {
-        leftDrive  = hardwareMap.get(DcMotor.class, "motor0");
-        rightDrive = hardwareMap.get(DcMotor.class, "motor1");
+        motor0  = hardwareMap.get(DcMotor.class, "motor0");
+        motor1 = hardwareMap.get(DcMotor.class, "motor1");
+        motor2 = hardwareMap.get(DcMotor.class, "motor2");
 
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        motor0.setDirection(DcMotor.Direction.REVERSE);
+        motor1.setDirection(DcMotor.Direction.FORWARD);
+        motor2.setDirection(DcMotor.Direction.FORWARD);
     }
 
-    public void setLeftDrivePower(double power){
-        leftDrive.setPower(power);
+    public void setMotor0(double power){
+        motor0.setPower(power);
     }
 
-    public void setRightDrivePower(double power){
-        rightDrive.setPower(power);
+    public void setMotor1(double power){
+        motor1.setPower(power);
     }
+
+    public void setMotor2(double power){
+        motor2.setPower(power);
+    }
+
 
     public void moveForward(double power) {
-        setLeftDrivePower(power);
-        setRightDrivePower(power);
+        setMotor0(power);
+        setMotor1(power);
     }
 
     public void moveBackward(double power) {
-        setLeftDrivePower(-power);
-        setRightDrivePower(-power);
+        setMotor0(-power);
+        setMotor1(-power);
     }
 
+
     public void stopMotors(){
-        moveForward(0);
+        motor0.setPower(0);
+        motor1.setPower(0);
+        motor2.setPower(0);
     }
 
     public void turnLeft(double power) {
-        setLeftDrivePower(power);
-        setRightDrivePower(-power);
+        setMotor0(power);
+        setMotor1(-power);
     }
 
     public void turnLeft90() {
@@ -70,8 +82,8 @@ public class GeneralDrive{
 
 
     public void turnRight(double power) {
-        setLeftDrivePower(-power);
-        setRightDrivePower(power);
+        setMotor0(-power);
+        setMotor1(power);
     }
 
     public void turnRight90() {
