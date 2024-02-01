@@ -54,6 +54,14 @@ public class NewArmCon extends LinearOpMode {
                 armMove(myRobot, curSpeed);
             }
 
+            else if(gamepad1.dpad_up){
+                slideMove(myRobot, maxSpeed);
+            }
+
+            else if(gamepad1.dpad_down){
+                slideMove(myRobot, -maxSpeed);
+            }
+
             else{
                 myRobot.stopMotors();
             }
@@ -71,8 +79,12 @@ public class NewArmCon extends LinearOpMode {
     }
 
     public void armMove(GeneralDrive myRobot, double speed){
-        myRobot.setLeftDrivePower(speed);
-        myRobot.setRightDrivePower(speed);
+        myRobot.setMotor0(speed);
+        myRobot.setMotor1(speed);
+    }
+
+    public void slideMove(GeneralDrive myRobot, double speed){
+        myRobot.setMotor2(speed);
     }
 
     public static double roundDec2(double num){
