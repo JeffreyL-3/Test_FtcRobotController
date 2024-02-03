@@ -43,12 +43,22 @@ public class NewArmCon extends LinearOpMode {
             double maxSpeed = 1.0;
 
             //curSpeed is adjusted to max out at maxSpeed
+            //curSpeed ramps up smoothly from 0.0 to maxSpeed
             //stick y: down is positive, up is negative
             double curSpeed = gamepad1.right_stick_y * maxSpeed;
 
-            if (curSpeed > maxSpeed){
-                curSpeed = maxSpeed;
+
+            //Unused option to abruptly max out at maxSpeed (curSpeed ramps up to maxSpeed then stops)
+            /*
+            if (Math.abs(curSpeed) > maxSpeed){
+                if(curSpeed>0){
+                    curSpeed = maxSpeed;
+                }
+                else {
+                    curSpeed = -maxSpeed;
+                }
             }
+             */
 
             if (Math.abs(gamepad1.right_stick_y)>0.2){
                 armMove(myRobot, curSpeed);
