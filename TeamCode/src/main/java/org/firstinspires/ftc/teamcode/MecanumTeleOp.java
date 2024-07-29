@@ -13,17 +13,17 @@ public class MecanumTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
-        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("motor0");
-        DcMotor backLeftMotor = hardwareMap.dcMotor.get("motor1");
-        DcMotor frontRightMotor = hardwareMap.dcMotor.get("motor2");
-        DcMotor backRightMotor = hardwareMap.dcMotor.get("motor3");
+        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("motor2");
+        DcMotor backLeftMotor = hardwareMap.dcMotor.get("motor0");
+        DcMotor frontRightMotor = hardwareMap.dcMotor.get("motor3");
+        DcMotor backRightMotor = hardwareMap.dcMotor.get("motor1");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
         // reverse the left side instead.
         // See the note about this earlier on this page.
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Telemetry telemetry;
         telemetry = this.telemetry;
@@ -33,9 +33,11 @@ public class MecanumTeleOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            telemetry.addData("Version", "2.0");
+            telemetry.update();
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad[    1.right_stick_x;
+            double rx = gamepad1.right_stick_x;
 
             telemetry.addData("y",y);
             telemetry.addData("x",x);
