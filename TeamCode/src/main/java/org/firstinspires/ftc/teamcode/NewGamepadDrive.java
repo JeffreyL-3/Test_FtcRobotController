@@ -46,8 +46,8 @@ public class NewGamepadDrive extends LinearOpMode {
                 myRobot.moveBackward(gamepad1.left_trigger);
             }
             else {
-                myRobot.setLeftDrivePower(drive - turn);
-                myRobot.setRightDrivePower(drive + turn);
+                myRobot.setMotor0(drive - turn);
+                myRobot.setMotor1(drive + turn);
             }
 
 

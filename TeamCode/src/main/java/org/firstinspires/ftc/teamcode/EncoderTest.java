@@ -9,7 +9,7 @@ public class EncoderTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Find a motor in the hardware map named "Arm Motor"
-        DcMotor motor = hardwareMap.dcMotor.get("motor2");
+        DcMotor motor = hardwareMap.dcMotor.get("motor0");
 
         // Reset the motor encoder so that it reads zero ticks
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -20,7 +20,7 @@ public class EncoderTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            double maxSpeed = 0.5;
+            double maxSpeed = 1.0;
             double power=0;
             // Get the current position of the motor
             double position = motor.getCurrentPosition();
@@ -31,6 +31,9 @@ public class EncoderTest extends LinearOpMode {
             else if(gamepad1.a && position!=0){
                 if(Math.abs(position)>0.5) {
                     power = -position / 1000.0;
+                }
+                if(power<0.25){
+                    power = 0.25;
                 }
             }
             else {
