@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 //Driver-Controlled Period
 @TeleOp
-public class NewGamepadDrive extends LinearOpMode {
+public class NewTank extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -24,8 +24,8 @@ public class NewGamepadDrive extends LinearOpMode {
         waitForStart();
 
         while ( opModeIsActive() ) {
-            double drive = gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x;
+            double left = gamepad1.left_stick_y;
+            double right = gamepad1.right_stick_y;
 
             if(gamepad1.left_bumper){
                 myRobot.turnLeft90();
@@ -46,10 +46,10 @@ public class NewGamepadDrive extends LinearOpMode {
                 myRobot.moveBackward(gamepad1.left_trigger);
             }
             else {
-                myRobot.setMotor0(drive - turn);
-                myRobot.setMotor1(drive + turn);
-                myRobot.setMotor2(drive - turn);
-                myRobot.setMotor3(drive + turn);
+                myRobot.setMotor0(right);
+                myRobot.setMotor1(left);
+                myRobot.setMotor2(right);
+                myRobot.setMotor3(left);
             }
 
 
